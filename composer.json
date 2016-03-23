@@ -1,0 +1,20 @@
+{
+    "name": "phpsuit/io",
+    "description": "PHP Suit Input/Output module",
+    "license": "MIT",
+    "varsion": "0.1",
+    "authors": [
+        {
+            "name": "Oleg Bronzov",
+            "email": "oleg.bronzov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7"
+    },
+    "autoload": {
+        "psr-4": {
+            "psr-4": {"PS\\IO\\": "src/"}
+        }
+    }
+}
