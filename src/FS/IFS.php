@@ -22,39 +22,39 @@ use PS\IO\IIO;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
-interface IFS extends IIO, IPath, IPermissions
+interface IFS extends IIO, IPath, IPermissions, IRemovable
 {
     /**
-     * Create new IO\FS object.
+     * Create new entity object.
      * Sets path.
      *
-     * @param string $path IO\FS path.
+     * @param string $path entity path.
      */
     public function __construct(string $path = '');
 
     /**
-     * Checks whether a IO\FS exists in set path.
+     * Checks whether a entity exists in set path.
      *
      * @return boolean
      */
     public function isExists() : bool;
 
     /**
-     * Checks whether a IO\FS writable.
+     * Checks whether a entity writable.
      *
      * @return boolean
      */
     public function isWritable() : bool;
 
     /**
-     * Checks whether a IO\FS readable.
+     * Checks whether a entity readable.
      *
      * @return boolean
      */
     public function isReadable() : bool;
 
     /**
-     * Tells whether the IO\FS path is a symbolic link.
+     * Tells whether the entity path is a symbolic link.
      *
      * @return boolean
      */
@@ -68,7 +68,7 @@ interface IFS extends IIO, IPath, IPermissions
     public function readlink() : string;
 
     /**
-     * Tells whether the IO\FS path is a regular file.
+     * Tells whether the entity path is a regular file.
      *
      * @return boolean
      */
@@ -82,16 +82,16 @@ interface IFS extends IIO, IPath, IPermissions
     public function isDir() : bool;
 
     /**
-     * Return name of IO\FS path.
+     * Return name of entity path.
      *
      * @return string
      */
     public function getName() : string;
 
     /**
-     * Return dir of IO\FS.
+     * Return dir of entity.
      *
-     * @return PS\IO\Dir
+     * @return PS\entity\Dir
      */
-    public function getDir() : PS\IO\Dir;
+    public function getDir() : PS\entity\Dir;
 }
