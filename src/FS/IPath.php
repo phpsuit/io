@@ -44,4 +44,11 @@ interface IPath
      * @return bool
      */
     public function hasPath() : bool;
+
+    /**
+     * Checks whether a entity exists in set path.
+     *
+     * @return boolean
+     */
+    public function isExists() : bool;
 }

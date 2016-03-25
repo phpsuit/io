@@ -12,7 +12,7 @@
 namespace PS\IO\FS;
 
 /**
- * File Output Stream Interface.
+ * File Output Stream.
  *
  * @category  PHPSuit
  * @package   PHPSuit/IO
@@ -20,7 +20,7 @@ namespace PS\IO\FS;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface IFileOutputStream extends IFS, IFileStream
+class FileOutputStream extends AFileStream implements IFileOutputStream
 {
     /**
      * Opens file to write.
@@ -32,7 +32,10 @@ interface IFileOutputStream extends IFS, IFileStream
      * @throws HandlerExistsException
      * @throws OpenFileException
      */
-    public function openPointerToBegin();
+    public function openPointerToBegin()
+    {
+        $this->openInMode('w');
+    }
 
     /**
      * Opens file to write.
@@ -44,13 +47,16 @@ interface IFileOutputStream extends IFS, IFileStream
      * @throws HandlerExistsException
      * @throws OpenFileException
      */
-    public function openPointerToEnd();
+    public function openPointerToEnd()
+    {
+        $this->openInMode('a');
+    }
 
     /**
      * Writes content into the file.
      *
      * @param string $content Writes content.
-     *
+     * 
      * @return void
      *
      * @throws HandlerExistsException
@@ -58,5 +64,16 @@ interface IFileOutputStream extends IFS, IFileStream
      * @throws HandlerNotExistsException
      * @throws WriteFileException
      */
-    public function write(string $content);
+    public function write(string $content)
+    {
+        if (!$this->hasHandler()) {
+            $this->openPointerToEnd();
+        }
+
+        $result = fwrite($this->getHandler(), $content);
+        
+        if ($result === false) {
+            throw new WriteFileException('Can\'t write to file.');
+        }
+    }
 }

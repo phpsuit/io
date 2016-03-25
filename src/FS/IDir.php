@@ -12,7 +12,7 @@
 namespace PS\IO\FS;
 
 /**
- * File Stream Closable Interface.
+ * Dir Interface.
  *
  * @category  PHPSuit
  * @package   PHPSuit/IO
@@ -20,14 +20,6 @@ namespace PS\IO\FS;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface IFileStreamClosable
+interface IDir extends IFS
 {
-    /**
-     * Closes opened file pointer.
-     *
-     * @return bool
-     *
-     * @throws HandlerNotExistsException
-     */
-    public function close() : bool;
 }

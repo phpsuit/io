@@ -9,10 +9,10 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-namespace PS\IO\FS;
+namespace PS\IO;
 
 /**
- * File Stream Closable Interface.
+ * IO base exception.
  *
  * @category  PHPSuit
  * @package   PHPSuit/IO
@@ -20,14 +20,6 @@ namespace PS\IO\FS;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface IFileStreamClosable
+class IOException extends \Exception
 {
-    /**
-     * Closes opened file pointer.
-     *
-     * @return bool
-     *
-     * @throws HandlerNotExistsException
-     */
-    public function close() : bool;
 }

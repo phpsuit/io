@@ -12,7 +12,7 @@
 namespace PS\IO\FS;
 
 /**
- * File Stream Closable Interface.
+ * File Content Interface.
  *
  * @category  PHPSuit
  * @package   PHPSuit/IO
@@ -20,14 +20,23 @@ namespace PS\IO\FS;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface IFileStreamClosable
+interface IFileContent
 {
     /**
-     * Closes opened file pointer.
+     * Returns files content.
      *
-     * @return bool
-     *
-     * @throws HandlerNotExistsException
+     * @return string
      */
-    public function close() : bool;
+    public function getContent() : string ;
+
+    /**
+     * Puts content into the file.
+     * Replace old file content.
+     * Create new file if it is not exists.
+     *
+     * @param string $content
+     *
+     * @return void
+     */
+    public function putContent(string $content);
 }

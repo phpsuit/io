@@ -12,7 +12,7 @@
 namespace PS\IO\FS;
 
 /**
- * File Stream Closable Interface.
+ * File Stream Handler Interface.
  *
  * @category  PHPSuit
  * @package   PHPSuit/IO
@@ -20,14 +20,32 @@ namespace PS\IO\FS;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface IFileStreamClosable
+interface IFileStreamHandler
 {
     /**
-     * Closes opened file pointer.
+     * Returns file pointer.
      *
-     * @return bool
+     * @return resource
      *
      * @throws HandlerNotExistsException
      */
-    public function close() : bool;
+    public function getHandler() : resource;
+
+    /**
+     * Sets file pointer.
+     *
+     * @param resource $handler File pointer.
+     * 
+     * @return void
+     * 
+     * @throws HandlerExistsException
+     */
+    public function setHandler(resource $handler);
+
+    /**
+     * Checks whether handler exists.
+     *
+     * @return bool
+     */
+    public function hasHandler() : bool ;
 }

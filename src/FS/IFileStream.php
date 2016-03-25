@@ -12,7 +12,7 @@
 namespace PS\IO\FS;
 
 /**
- * File Stream Closable Interface.
+ * File Stream Interface.
  *
  * @category  PHPSuit
  * @package   PHPSuit/IO
@@ -20,14 +20,17 @@ namespace PS\IO\FS;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface IFileStreamClosable
+interface IFileStream extends IFileStreamClosable, IFileStreamHandler
 {
     /**
-     * Closes opened file pointer.
+     * Opens file in specified mode.
      *
-     * @return bool
+     * @param string $mode Open mode.
      *
-     * @throws HandlerNotExistsException
+     * @return void
+     *
+     * @throws HandlerExistsException
+     * @throws OpenFileException
      */
-    public function close() : bool;
+    public function openInMode(string $mode);
 }

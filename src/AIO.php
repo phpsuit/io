@@ -9,10 +9,10 @@
 * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
 
-namespace PS\IO\FS;
+namespace PS\IO;
 
 /**
-* File System Removable Interface.
+* Input/Output abstract class.
 *
  * @category  PHPSuit
  * @package   PHPSuit/IO
@@ -20,12 +20,6 @@ namespace PS\IO\FS;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
-interface IRemovable
+abstract class AIO
 {
-    /**
-     * Remove entity from file system.
-     *
-     * @return bool
-     */
-    public function remove() : bool ;
 }

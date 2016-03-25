@@ -48,4 +48,18 @@ interface IPermissions
      * @return boolean
      */
     public function chgrp(string $group) : bool;
+
+    /**
+     * Checks whether a entity writable.
+     *
+     * @return boolean
+     */
+    public function isWritable() : bool;
+
+    /**
+     * Checks whether a entity readable.
+     *
+     * @return boolean
+     */
+    public function isReadable() : bool;
 }

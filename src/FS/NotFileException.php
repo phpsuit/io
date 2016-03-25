@@ -11,8 +11,10 @@
 
 namespace PS\IO\FS;
 
+use PS\IO\IOException;
+
 /**
- * File Stream Closable Interface.
+ * FS entity is not a file exception.
  *
  * @category  PHPSuit
  * @package   PHPSuit/IO
@@ -20,14 +22,6 @@ namespace PS\IO\FS;
  * @copyright 2016 PHPSuit
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-interface IFileStreamClosable
+class NotFileException extends IOException
 {
-    /**
-     * Closes opened file pointer.
-     *
-     * @return bool
-     *
-     * @throws HandlerNotExistsException
-     */
-    public function close() : bool;
 }
