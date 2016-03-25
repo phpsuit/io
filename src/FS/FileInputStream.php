@@ -27,12 +27,17 @@ class FileInputStream extends AFileStream implements IFileInputStream
      * Place the file pointer to the beginning of the file.
      *
      * @return void
-     * 
+     *
      * @throws HandlerExistsException
      * @throws OpenFileException
+     * @throws FileNotReadableException
      */
     public function open()
     {
+        if (!$this->isReadable()) {
+            throw new FileNotReadableException('File not readable');
+        }
+        
         $this->openInMode('r');
     }
 

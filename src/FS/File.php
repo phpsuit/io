@@ -27,11 +27,32 @@ class File extends AFS implements IFile
      *
      * @param string $newFileName New file name.
      *
-     * @return void
+     * @return bool
+     *
+     * @throws FileNotExistsException
+     * @throws MoveFileException
+     * @throws NotFileException
      */
-    public function rename(string $newFileName)
+    public function rename(string $newFileName) : bool
     {
-        // TODO: Implement rename() method.
+        if (!$this->isExists()) {
+            throw new FileNotExistsException('File not exists.');
+        }
+
+        if (!$this->isFile()) {
+            throw new NotFileException('The path is not a file');
+        }
+
+        $newFile = new File($this->getDir()->getPath());
+        $newFile->joinPath($newFileName);
+
+        if (@rename($this->getPath(), $newFile->getPath()) === false) {
+            throw new MoveFileException('Can\'t move file');
+        }
+
+        $this->setPath($newFile->getPath());
+
+        return true;
     }
 
     /**
@@ -39,11 +60,36 @@ class File extends AFS implements IFile
      *
      * @param IDir $dir New directory for file.
      *
-     * @return void
+     * @return bool
+     *
+     * @throws FileNotExistsException
+     * @throws MoveFileException
+     * @throws NotFileException
      */
-    public function move(IDir $dir)
+    public function move(IDir $dir) : bool
     {
-        // TODO: Implement move() method.
+        if (!$this->isExists()) {
+            throw new FileNotExistsException('File not exists.');
+        }
+
+        if (!$this->isFile()) {
+            throw new NotFileException('The path is not a file');
+        }
+
+        if (!$dir->isExists()) {
+            $dir->create();
+        }
+
+        $newFile = new File($dir->getPath());
+        $newFile->joinPath($this->getName());
+
+        if (@rename($this->getPath(), $newFile->getPath()) === false) {
+            throw new MoveFileException('Can\'t move file');
+        }
+
+        $this->setPath($newFile->getPath());
+
+        return true;
     }
 
     /**
@@ -51,21 +97,61 @@ class File extends AFS implements IFile
      *
      * @param IFile $file New file.
      *
-     * @return File
+     * @return bool
+     *
+     * @throws CopyFileException
+     * @throws CreateDirException
+     * @throws FileExistsException
+     * @throws FileNotExistsException
+     * @throws NotFileException
      */
-    public function copy(IFile $file) : File
+    public function copy(IFile $file) : bool
     {
-        // TODO: Implement copy() method.
+        if (!$this->isExists()) {
+            throw new FileNotExistsException('File not exists.');
+        }
+
+        if (!$this->isFile()) {
+            throw new NotFileException('The path is not a file.');
+        }
+
+        if ($file->isExists()) {
+            throw new FileExistsException('Destination file is already exists.');
+        }
+
+        $fileDir = $file->getDir();
+        if (!$fileDir->isExists()) {
+            $fileDir->create();
+        }
+
+        if (@copy($this->getPath(), $file->getPath()) === false) {
+            throw new CopyFileException('Can\'t copy file.');
+        }
+
+        return true;
     }
 
     /**
      * Returns file size.
      *
      * @return int
+     *
+     * @throws FileNotExistsException
+     * @throws FileSizeException
      */
     public function getSize() : int
     {
-        // TODO: Implement getSize() method.
+        if (!$this->isExists()) {
+            throw new FileNotExistsException('File not exists.');
+        }
+
+        $size = @filesize($this->getPath());
+
+        if ($size === false) {
+            throw new FileSizeException('Can\'t get file size.');
+        }
+
+        return $size;
     }
 
     /**
@@ -80,38 +166,84 @@ class File extends AFS implements IFile
      */
     public function getExtension(int $depth = 1) : string
     {
-        // TODO: Implement getExtension() method.
+        preg_match_all('|(\w*)\.(\w*)|si', $this->getName(), $matches);
+        return implode(
+            ".",
+            array_reverse(
+                array_slice(
+                    array_reverse($matches[2]),
+                    0,
+                    $depth
+                )
+            )
+        );
     }
 
     /**
      * Returns files content.
-     *
+     * 
      * @return string
+     * 
+     * @throws FileNotExistsException
+     * @throws FileNotReadableException
+     * @throws ReadFileException
      */
     public function getContent() : string
     {
-        // TODO: Implement getContent() method.
+        if (!$this->isExists()) {
+            throw new FileNotExistsException('File not exists.');
+        }
+
+        if (!$this->isReadable()) {
+            throw new FileNotReadableException('File not readable.');
+        }
+
+        $content = file_get_contents($this->getPath());
+
+        if ($content === false) {
+            throw new ReadFileException('Can\'t read file.');
+        }
+
+        return $content;
     }
 
     /**
      * Puts content into the file.
-     * Replace old file content.
      * Create new file if it is not exists.
+     * Replace old file content if $append is False.
      *
-     * @param string $content
+     * @param string $content File content.
+     * @param bool   $append  Shows whether content should be appended.
      *
-     * @return void
+     * @return bool
+     * 
+     * @throws FileNotWritableException
+     * @throws WriteFileException
      */
-    public function putContent(string $content)
+    public function putContent(string $content, bool $append = false) : bool
     {
-        // TODO: Implement putContent() method.
+        if ($this->isExists() && !$this->isWritable()) {
+            throw new FileNotWritableException('File not writable.');
+        }
+
+        $flags = null;
+
+        if ($append) {
+            $flags = FILE_APPEND;
+        }
+
+        if (@file_put_contents($this->getPath(), $content, $flags) === false) {
+            throw new WriteFileException('Can\'t write file.');
+        }
+
+        return true;
     }
 
     /**
      * Remove FS entity from file system.
-     * 
+     *
      * @return bool
-     * 
+     *
      * @throws FileNotExistsException
      * @throws NotFileException
      * @throws RemoveFileException
@@ -129,7 +261,7 @@ class File extends AFS implements IFile
         if (unlink($this->getPath()) === false) {
             throw new RemoveFileException('Can\'t remove file');
         }
-        
+
         return true;
     }
 }

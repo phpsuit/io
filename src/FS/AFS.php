@@ -228,4 +228,28 @@ abstract class AFS extends AIO implements IFS
     {
         return chgrp($this->getPath(), $group);
     }
+
+    /**
+     * Joins specified path to exists.
+     *
+     * @param string $path Path to be joined.
+     *
+     * @return void
+     */
+    public function joinPath(string $path)
+    {
+        if (!$this->hasPath()) {
+            $this->setPath($path);
+            return;
+        }
+
+        $path = trim($path, DIRECTORY_SEPARATOR);
+        $oldPath = $this->getPath();
+
+        if (in_array(substr($oldPath, -1), array('\\', '/'))) {
+            $oldPath = substr($oldPath, 0, (strlen($oldPath) - 1));
+        }
+
+        $this->setPath($oldPath . DIRECTORY_SEPARATOR . $path);
+    }
 }

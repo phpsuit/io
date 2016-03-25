@@ -31,9 +31,14 @@ class FileOutputStream extends AFileStream implements IFileOutputStream
      *
      * @throws HandlerExistsException
      * @throws OpenFileException
+     * @throws FileNotWritableException
      */
     public function openPointerToBegin()
     {
+        if (!$this->isWritable()) {
+            throw new FileNotWritableException('File not writable.');
+        }
+
         $this->openInMode('w');
     }
 
@@ -46,9 +51,14 @@ class FileOutputStream extends AFileStream implements IFileOutputStream
      *
      * @throws HandlerExistsException
      * @throws OpenFileException
+     * @throws FileNotWritableException
      */
     public function openPointerToEnd()
     {
+        if (!$this->isWritable()) {
+            throw new FileNotWritableException('File not writable.');
+        }
+        
         $this->openInMode('a');
     }
 

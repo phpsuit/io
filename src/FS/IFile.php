@@ -27,32 +27,49 @@ interface IFile extends IFS, IFileContent
      *
      * @param string $newFileName New file name.
      *
-     * @return void
+     * @return bool
+     * 
+     * @throws FileNotExistsException
+     * @throws MoveFileException
+     * @throws NotFileException
      */
-    public function rename(string $newFileName);
+    public function rename(string $newFileName) : bool ;
 
     /**
      * Moves file from exists dir to the received.
      *
      * @param IDir $dir New directory for file.
      *
-     * @return void
+     * @return bool
+     *
+     * @throws FileNotExistsException
+     * @throws MoveFileException
+     * @throws NotFileException
      */
-    public function move(IDir $dir);
+    public function move(IDir $dir) : bool ;
 
     /**
      * Creates new copy of file.
      *
      * @param IFile $file New file.
      *
-     * @return File
+     * @return bool
+     *
+     * @throws CopyFileException
+     * @throws CreateDirException
+     * @throws FileExistsException
+     * @throws FileNotExistsException
+     * @throws NotFileException
      */
-    public function copy(IFile $file) : File;
+    public function copy(IFile $file) : bool;
 
     /**
      * Returns file size.
      *
      * @return int
+     * 
+     * @throws FileNotExistsException
+     * @throws FileSizeException
      */
     public function getSize() : int ;
 

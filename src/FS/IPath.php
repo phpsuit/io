@@ -39,6 +39,15 @@ interface IPath
     public function setPath(string $path);
 
     /**
+     * Joins specified path to exists.
+     *
+     * @param string $path Path to be joined.
+     *
+     * @return void
+     */
+    public function joinPath(string $path);
+
+    /**
      * Returns whether path has been set up.
      *
      * @return bool

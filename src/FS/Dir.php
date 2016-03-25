@@ -41,10 +41,34 @@ class Dir extends AFS implements IDir
             throw new NotDirException('The path is not a dir.');
         }
 
-        if (rmdir($this->getPath()) === false) {
+        if (@rmdir($this->getPath()) === false) {
             throw new RemoveDirException('Can\'t remove dir.');
         }
 
+        return true;
+    }
+
+    /**
+     * Creates new directory if it does not exists and change permission mode to specified otherwise.
+     *
+     * @param int|null $mode Permissions mode.
+     * @param bool $recursive Allows the creation of nested directories specified in the path.
+     *
+     * @return bool
+     *
+     * @throws CreateDirException
+     * @throws DirExistsException
+     */
+    public function create(int $mode = 0777, bool $recursive = true) : bool 
+    {
+        if ($this->isExists()) {
+            return $this->chmod($mode);
+        }
+        
+        if (@mkdir($this->getPath(), $mode, $recursive) === false) {
+            throw new CreateDirException('Can\'t create dir.');
+        }
+        
         return true;
     }
 }

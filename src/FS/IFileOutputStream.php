@@ -31,6 +31,7 @@ interface IFileOutputStream extends IFS, IFileStream
      *
      * @throws HandlerExistsException
      * @throws OpenFileException
+     * @throws FileNotWritableException
      */
     public function openPointerToBegin();
 
@@ -43,6 +44,7 @@ interface IFileOutputStream extends IFS, IFileStream
      *
      * @throws HandlerExistsException
      * @throws OpenFileException
+     * @throws FileNotWritableException
      */
     public function openPointerToEnd();
 

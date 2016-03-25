@@ -26,6 +26,10 @@ interface IFileContent
      * Returns files content.
      *
      * @return string
+     * 
+     * @throws FileNotExistsException
+     * @throws FileNotReadableException
+     * @throws ReadFileException
      */
     public function getContent() : string ;
 

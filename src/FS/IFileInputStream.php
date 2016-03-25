@@ -30,6 +30,7 @@ interface IFileInputStream extends IFS, IFileStream
      *
      * @throws HandlerExistsException
      * @throws OpenFileException
+     * @throws FileNotReadableException
      */
     public function open();
 
