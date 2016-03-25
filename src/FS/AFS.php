@@ -37,7 +37,6 @@ abstract class AFS extends AIO implements IFS
      */
     public function __construct(string $path = '')
     {
-        parent::__construct($path);
         $this->setPath($path);
     }
 
